@@ -87,7 +87,7 @@ async function getCode(url) {
     console.log('Fetching script from network.')
     const response = await fetch(url);
     if (!response.ok) {
-        throw new Error('fetch script error');
+        throw new Error('Fetch script error', response.status);
     }
 
     const code = await response.text();
