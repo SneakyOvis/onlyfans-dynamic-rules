@@ -1,7 +1,6 @@
 name: Generate rules
 
 on:
-  workflow_dispatch:
   schedule:
   - cron: "*/5 * * * *"
 
