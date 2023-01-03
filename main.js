@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { parse } from 'path';
+import { parse as parseHTML } from 'node-html-parser';
+import { writeFileSync } from 'fs';
 import vm from 'vm';
 import parser from '@babel/parser';
 import _generator from '@babel/generator';
@@ -8,37 +8,44 @@ import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
 import sha1 from 'js-sha1';
 
-// const production = process.argv[process.argv.length - 1] === 'prod' ? true : false;
-const production = true;
-let shamsg = '';
+async function getPage(url) {
+    console.log('Fetching page.');
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.log('Fetch page error', response.status);
+    }
 
-function runFunction(fun) {
-    function importer(mod) {
-        if (mod === 193810) { // sha
-            return function(msg) {
-                shamsg = msg;
-                return sha1(msg); // the real sha this time
-            }
-        } else if (mod === 227361) { // get property
-            return function(obj, path, def) {
-                return obj[path] ? obj[path] : def;
-            }
-        } else if (mod === 550615) { // empty object
-            return getProxy({
-                Z: getProxy({
-                    'getters.auth/authUserId': 123123
-                }, 'Z')
-            }, '550615')
-        } else {
-            console.log(`Unknown ${mod} module`);
+    const html =  await response.text();
+    return html;
+}
+
+async function getCode(html, name) {
+    console.log('Parsing script tags.')
+    const scripts = parseHTML(html).querySelector('head').querySelectorAll('script');
+    for (let script of scripts) {
+        if (!script.rawAttributes.src) {
+            continue;
         }
-    };
-    importer.n = function(obj) { return () => obj;}
 
-    const param1 = getProxy({}, 'param1');
-    const param2 = getProxy({}, 'param2');
-    fun(param1, param2, importer);
-    return param2.Z;
+        const src = script.rawAttributes.src;
+        if (src.indexOf(name) < 0) {
+            continue;
+        }
+
+        console.log('Fetching script.')
+        const response = await fetch(src);
+        if (!response.ok) {
+            console.log('Fetch script error', response.status);
+            throw new Error();
+        }
+
+        const code = await response.text();
+        writeFileSync(name, code);
+        return code;
+    }
+
+    console.log('Script not found.');
+    throw new Error();
 }
 
 function getProxy(obj, name) {
@@ -75,25 +82,34 @@ function runCode(code) {
     return context;
 }
 
-async function getCode(url) {
-    const name = parse(url).base
-    if (!production) {
-        if (existsSync(name)) {
-            console.log('Fetching script from disk.');
-            return readFileSync(name).toString();
+let shamsg = '';
+function runFunction(fun) {
+    function importer(mod) {
+        if (mod === 193810) { // sha
+            return function(msg) {
+                shamsg = msg;
+                return sha1(msg); // the real sha this time
+            }
+        } else if (mod === 227361) { // get property
+            return function(obj, path, def) {
+                return obj[path] ? obj[path] : def;
+            }
+        } else if (mod === 550615) { // empty object
+            return getProxy({
+                Z: getProxy({
+                    'getters.auth/authUserId': 123123
+                }, 'Z')
+            }, '550615')
+        } else {
+            console.log(`Unknown ${mod} module`);
         }
-    }
+    };
+    importer.n = function(obj) { return () => obj;}
 
-    console.log('Fetching script from network.')
-    const response = await fetch(url);
-    if (!response.ok) {
-        console.log('Fetch script error', response.status);
-        throw new Error();
-    }
-
-    const code = await response.text();
-    // writeFileSync(name, code);
-    return code;
+    const param1 = getProxy({}, 'param1');
+    const param2 = getProxy({}, 'param2');
+    fun(param1, param2, importer);
+    return param2.Z;
 }
 
 function getMath(ast) {
@@ -313,17 +329,21 @@ async function testAPI(path, rules) {
 }
 
 async function main() {
-    const code = await getCode('https://static.onlyfans.com/theme/onlyfans/spa/3415.js');
+    // get the code
+    const html = await getPage('https://www.onlyfans.com');
+    const code = await getCode(html, '3415.js');
+    // parse ast
     const ast = parser.parse(code);
     const math = getMath(ast);
     const names = getNames(math);
+    // change code
     insertProxy(math, names);
     parseOperations(math);
     const newCode = generator(ast).code
-
     // create rules
     const context = getSign(newCode, 'not important for analysis');
     const rules = createRules(context.log, context.result.sign);
+    // dump rules
     const json = JSON.stringify(rules, function(k, v) {
         if (v instanceof Array) {
             return JSON.stringify(v);
@@ -331,7 +351,9 @@ async function main() {
             return v;
         }
     }, 2);
+
     writeFileSync('rules.json', json);
+    console.log('Done');
 
     // test it it works
     // const path = '/api2/v2/users/list?r2[]=255449830';
