@@ -3,7 +3,7 @@ name: Generate rules
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+  - cron: "*/5 * * * *"
 
 jobs:
   scheduled-job:
