@@ -17,8 +17,7 @@ jobs:
       - run: npm install
       - run: npm start
       - run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name SneakyOvis
           git add .
           git diff-index --quiet HEAD || git commit -m "Update rules"
           git push
