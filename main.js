@@ -40,7 +40,6 @@ async function getCode(html, name) {
         }
 
         const code = await response.text();
-        writeFileSync(name, code);
         return code;
     }
 
