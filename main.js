@@ -345,7 +345,7 @@ async function main() {
     // dump rules
     const json = JSON.stringify(rules, function(k, v) {
         if (v instanceof Array) {
-            return v;
+            return JSON.stringify(v);
         } else {
             return v;
         }
