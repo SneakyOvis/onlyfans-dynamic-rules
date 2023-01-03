@@ -1,4 +1,4 @@
-Use this link for getting rules: `https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
+Use this link for getting the rules: `https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
 
 How to generate **sign** header from rules:
 
