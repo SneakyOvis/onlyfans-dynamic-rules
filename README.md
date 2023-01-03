@@ -1,4 +1,5 @@
 Use this link to get the rules: `https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
+You can find the documentation in the **doc** directory
 
 How to generate **sign** header from rules:
 
