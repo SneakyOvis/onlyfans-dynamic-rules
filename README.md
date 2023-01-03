@@ -1,7 +1,10 @@
-Use this link to get the rules: `https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
+# Where are the rules
+
+`https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
+
 You can find the documentation in the **doc** directory
 
-How to generate **sign** header from rules:
+# How to generate **sign** header from rules:
 
 ```javascript
 import sha1 from 'js-sha1';
@@ -22,7 +25,7 @@ const sign = [rules['prefix'], hash, checksum.toString(16), rules['suffix']].joi
 console.log(sign);
 ```
 
-How to make api request:
+# How to make api request:
 
 ```javascript
 import sha1 from 'js-sha1';
