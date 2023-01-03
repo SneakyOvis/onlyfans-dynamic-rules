@@ -1,0 +1,19 @@
+{
+  "name": "onlyfans-dynamic-rules",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "SneakyOvis",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/generator": "^7.20.7",
+    "@babel/parser": "^7.20.7",
+    "@babel/traverse": "^7.20.10",
+    "js-sha1": "^0.6.0"
+  }
+}
