@@ -1,3 +1,3 @@
 import { readdirSync, writeFileSync } from 'fs';
 
-writeFileSync('test.txt', 'test2');
+writeFileSync('test.txt', Math.random().toString());
