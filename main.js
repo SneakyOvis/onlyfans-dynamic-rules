@@ -279,7 +279,7 @@ function createRules(log, sign) {
     const shamsgParts = shamsg.split('\n');
 
     const rules = {
-        'app_token': '33d57ade8c02dbc5a333db99ff9ae26a',
+        'app-token': '33d57ade8c02dbc5a333db99ff9ae26a',
         'static_param': shamsgParts[0],
         'prefix': signParts[0],
         'suffix': signParts[3],
@@ -345,11 +345,11 @@ async function main() {
     // dump rules
     const json = JSON.stringify(rules, function(k, v) {
         if (v instanceof Array) {
-            return JSON.stringify(v);
+            return v;
         } else {
             return v;
         }
-    }, 2);
+    }, 2).replace(/\"\[/g, '[').replace(/\]\"/g,']');;
 
     writeFileSync('rules.json', json);
     console.log('Done');
