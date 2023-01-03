@@ -1,6 +1,7 @@
 name: Generate rules
 
 on:
+  push:
   schedule:
     - cron: "5 * * * *"
 
