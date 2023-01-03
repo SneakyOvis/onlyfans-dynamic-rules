@@ -2,7 +2,7 @@ name: Generate rules
 
 on:
   schedule:
-  - cron: "*/10 * * * *"
+  - cron: '*/10 * * * *'
 
 jobs:
   scheduled-job:
