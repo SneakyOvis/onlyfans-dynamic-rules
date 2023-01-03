@@ -6,7 +6,7 @@ How to generate **sign** header from rules:
 import sha1 from 'js-sha1';
 
 const rules = JSON.parse(`{
-    "app_token": "33d57ade8c02dbc5a333db99ff9ae26a",
+    "app-token": "33d57ade8c02dbc5a333db99ff9ae26a",
     "static_param": "n4GYH4LDIHQzGeLh2oxRhjaQdl1yNsg8",
     "prefix": "6471",
     "suffix": "63b430f2",
