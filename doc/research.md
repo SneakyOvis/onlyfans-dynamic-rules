@@ -327,7 +327,7 @@ function getProperty(obj, prop, def) {
 }
 ```
 
-Ok, that's it. What we learned:
+Ok, that's it. What we've learned:
 
 ```javascript
 833415: function(W, o, n)
@@ -361,7 +361,7 @@ We will leave the browser for now and try our luck with **NodeJS**. In the code 
   },
 ```
 
-Create a **main.js** file and start actually writing the code.
+Create a **main.js** file and let's finally start writing code.
 
 Oh, we've done with images too, that's the last one:
 
@@ -1437,7 +1437,7 @@ _W[26] -> 'r'
 add something
 ```
 
-Now, the **_W['length']** will always be 32 (in fact, 40 for the real sha1). Modulo will return some index into sha hash. The part we're really interested in is getting the charater at that index, so get rid of all this distractions: no logging for **mod** function and **NaN** index:
+Now, the **_W['length']** will always be 32 (in fact, 40 for the real sha1). Modulo will return some index into sha hash. The part we're really interested in is getting the charater at specific index, so get rid of all this distractions: no logging for **mod** function and **NaN** index:
 
 ```javascript
 function runCode(code) {
