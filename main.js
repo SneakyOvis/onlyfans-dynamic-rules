@@ -354,7 +354,7 @@ async function main() {
     writeFileSync('rules.json', json);
     console.log('Done');
 
-    // test it it works
+    // test if it works
     // const path = '/api2/v2/users/list?r2[]=255449830';
     // const msg = await testAPI(path, rules);
     // console.log(msg);
