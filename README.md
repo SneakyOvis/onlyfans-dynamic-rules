@@ -17,6 +17,7 @@ const rules = JSON.parse(`{
     "checksum_constant": 544,
     "checksum_indexes": [0,0,0,1,2,2,5,7,8,9,12,12,12,16,19,19,21,22,23,24,24,25,26,27,29,30,31,31,32,33,33,36]
 }`);
+
 const path = '/api/path';
 const time = Date.now().toString();
 const hash = sha1([rules['static_param'], time, path, rules['user-id']].join('\n'));
