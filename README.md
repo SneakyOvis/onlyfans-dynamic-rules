@@ -1,4 +1,4 @@
-# Where are the rules
+# Where are the rules?
 
 `https://raw.githubusercontent.com/SneakyOvis/onlyfans-dynamic-rules/main/rules.json`
 
