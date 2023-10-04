@@ -95,9 +95,9 @@ function runFunction(fun) {
             }
         } else if (mod === 550615) { // empty object
             return getProxy({
-                Z: getProxy({
+                default: getProxy({
                     'getters.auth/authUserId': 123123
-                }, 'Z')
+                }, 'default')
             }, '550615')
         } else {
             console.log(`Unknown ${mod} module`);
